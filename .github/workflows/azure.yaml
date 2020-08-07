@@ -1,0 +1,28 @@
+on:
+  push:
+    paths: 
+      [ .github/workflows/azure.yaml ]
+
+jobs:
+  create_resource:
+    name: Create Azure Resource
+    runs-on: ubuntu-latest
+    env:
+      repo_name: ${{ github.repository }} 
+
+    steps:
+      - name: 'Checkout Github Action'
+        uses: actions/checkout@main
+      
+      - name: azure authentication
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - run: echo "azure login done" 
+      - name: Show Azure ResourceGroup
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            resource_group_name=$(echo ${{env.repo_name }} | cut -f2 -d/)
+            echo "Your Azure ResourceGroup:" $resource_group_name
+
