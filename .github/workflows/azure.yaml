@@ -2,7 +2,7 @@ on:
   push:
     paths: 
       [ .github/workflows/azure.yaml ]
-
+#comment
 jobs:
   create_resource:
     name: Create Azure Resource
